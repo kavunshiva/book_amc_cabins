@@ -38,8 +38,11 @@ def available_cabins_request(date, number_of_guests):
 
 def cabin_available(response, cabin_name):
     for cabin in response.json():
-        if cabin_name.lower() in cabin['UnitTypeName'].lower():
-            return True
+        try:
+            if cabin_name.lower() in cabin['UnitTypeName'].lower():
+                return True
+        except:
+            return False
     return False
 
 def available_cabins(start_date, days, number_of_guests, cabins=None, date_to_str=False):

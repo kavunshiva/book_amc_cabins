@@ -14,6 +14,9 @@ def cabins():
 @app.route('/api/cabins', methods=['GET'])
 def get_data():
     start_date = request.args.get('startDate')
+    if invalid_start_date(start_date):
+        return jsonify([])
+
     days = request.args.get('days', type=int)
     number_of_guests = request.args.get('numberOfGuests', type=int)
     cabin_names = tuple(request.args.getlist('cabinName'))
@@ -22,8 +25,7 @@ def get_data():
 
 @app.route('/api/min_start_date', methods=['GET'])
 def min_start_date():
-    tomorrow = datetime.now(ZoneInfo('America/New_York')) + timedelta(days=1)
-    min_start_date = tomorrow.strftime('%Y-%m-%d')
+    min_start_date = tomorrow().strftime('%Y-%m-%d')
     return jsonify({'minStartDate': min_start_date})
 
 def cached_data(start_date, days, number_of_guests, cabin_names):
@@ -36,6 +38,12 @@ def cached_data(start_date, days, number_of_guests, cabin_names):
             'timestamp': now
         }
     return cache[key]['data']
+
+def tomorrow():
+    return datetime.now(ZoneInfo('America/New_York')).date() + timedelta(days=1)
+
+def invalid_start_date(start_date):
+    return datetime.strptime(start_date, '%Y-%m-%d').date() < tomorrow()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
