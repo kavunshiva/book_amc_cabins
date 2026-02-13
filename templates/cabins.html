@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/cabins.css') }}"></style>
+        <script src="{{ url_for('static', filename='js/cabins.js') }}"></script>
+    </head>
+    <body data='{"cabinNames": ["Gorman", "Lyford", "Medawisla"], "startDate": "2026-02-01"}'>
+        <h2>Cabin Availability Fetcher</h2>
+        <hr />
+        <h3>Instructions</h3>
+        <p>
+            A two-day round-trip itinerary involves Gorman and Lyford lodges; a three-day itinerary involves Medawisla lodge as well.
+            A bookable block is contiguous days on a diagonal, e.g. for a three-day itinerary:
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <td>Dates</td>
+                    <td>Gorman</td>
+                    <td>Lyford</td>
+                    <td>Medawisla</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sun, Feb 1</td>
+                    <td style="background-color: green"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Mon, Feb 2</td>
+                    <td></td>
+                    <td style="background-color: green"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Tue, Feb 3</td>
+                    <td></td>
+                    <td></td>
+                    <td style="background-color: green"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <hr />
+        <h3>Availabilities</h3>
+        <label for="start-date">Start date:</label>
+        <input type="date" id="start-date" name="start-date" />
+        <br />
+        <label for="days">Number of days from start date to fetch:</label>
+        <select id="days" name="days"></select>
+        <br />
+        <label for="guest-number">Number of guests on trip:</label>
+        <select id="guest-number" name="guest-number"></select>
+        <br />
+        <br />
+        <div id="loading-spinner" style="width: 400px;">
+            <span class="loader"></span>
+        </div>
+        <table id="availabilities-table">
+            <thead>
+                <tr id="cabin-names">
+                    <td>Dates</td>
+                </tr>
+            </thead>
+            <tbody id="cabin-availabilities">
+            </tbody>
+        </table>
+    </body>
+</html>
