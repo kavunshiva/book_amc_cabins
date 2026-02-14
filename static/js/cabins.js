@@ -1,3 +1,5 @@
+import { debounce } from './utils.js';
+
 document.addEventListener('DOMContentLoaded', async () => {
   const { cabinNames } = JSON.parse(document.querySelector('body').getAttribute('data'));
   const startDateSelector = document.getElementById('start-date');
@@ -33,7 +35,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const addOptionChangeListeners = () => {
     [startDateSelector, daysSelector, numberOfGuestsSelector]
-      .forEach((element) => element.addEventListener('blur', () => renderAvailabilities()));
+      .forEach((element) => {
+        element.addEventListener('change', debounce(() => renderAvailabilities(), 300));
+      });
   };
 
   const setTableHeaders = () => {
