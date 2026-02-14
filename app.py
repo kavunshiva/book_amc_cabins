@@ -5,7 +5,8 @@ from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 
-cache = {}
+CACHE = {}
+CACHE_TTL_SECONDS = 900
 
 @app.route('/cabins', methods=['GET'])
 def cabins():
@@ -31,13 +32,13 @@ def min_start_date():
 def cached_data(start_date, days, number_of_guests, cabin_names):
     key = (start_date, days, number_of_guests, cabin_names)
     now = datetime.now().timestamp()
-    if not key in cache or now - cache[key]['timestamp'] > 900:
-        cache[key] = {
+    if not key in CACHE or now - CACHE[key]['timestamp'] > CACHE_TTL_SECONDS:
+        CACHE[key] = {
             'data': available_cabins(start_date, days, number_of_guests,
                                      cabin_names, date_to_str=True),
             'timestamp': now
         }
-    return cache[key]['data']
+    return CACHE[key]['data']
 
 def tomorrow():
     return datetime.now(ZoneInfo('America/New_York')).date() + timedelta(days=1)
