@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const addOptionChangeListeners = () => {
     [startDateSelector, daysSelector, numberOfGuestsSelector]
       .forEach((element) => {
-        element.addEventListener('change', debounce(() => renderAvailabilities(), 300));
+        element.addEventListener('change', debounce(renderAvailabilities, 300));
       });
   };
 
